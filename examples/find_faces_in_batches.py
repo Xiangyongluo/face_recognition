@@ -44,12 +44,15 @@ while video_capture.isOpened():
             number_of_faces_in_frame = len(face_locations)
 
             frame_number = frame_count - 128 + frame_number_in_batch
-            print("I found {} face(s) in frame #{}.".format(number_of_faces_in_frame, frame_number))
+            print(f"I found {number_of_faces_in_frame} face(s) in frame #{frame_number}.")
 
             for face_location in face_locations:
                 # Print the location of each face in this frame
                 top, right, bottom, left = face_location
-                print(" - A face is located at pixel location Top: {}, Left: {}, Bottom: {}, Right: {}".format(top, left, bottom, right))
+                print(
+                    f" - A face is located at pixel location Top: {top}, Left: {left}, Bottom: {bottom}, Right: {right}"
+                )
+
 
         # Clear the frames array to start the next batch
         frames = []

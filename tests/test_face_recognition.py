@@ -126,9 +126,19 @@ class Test_face_recognition(unittest.TestCase):
 
         self.assertEqual(
             set(face_landmarks[0].keys()),
-            set(['chin', 'left_eyebrow', 'right_eyebrow', 'nose_bridge',
-                 'nose_tip', 'left_eye', 'right_eye', 'top_lip',
-                 'bottom_lip']))
+            {
+                'chin',
+                'left_eyebrow',
+                'right_eyebrow',
+                'nose_bridge',
+                'nose_tip',
+                'left_eye',
+                'right_eye',
+                'top_lip',
+                'bottom_lip',
+            },
+        )
+
         self.assertEqual(
             face_landmarks[0]['chin'],
             [(369, 220), (372, 254), (378, 289), (384, 322), (395, 353),
@@ -141,8 +151,9 @@ class Test_face_recognition(unittest.TestCase):
         face_landmarks = api.face_landmarks(img, model="small")
 
         self.assertEqual(
-            set(face_landmarks[0].keys()),
-            set(['nose_tip', 'left_eye', 'right_eye']))
+            set(face_landmarks[0].keys()), {'nose_tip', 'left_eye', 'right_eye'}
+        )
+
         self.assertEqual(face_landmarks[0]['nose_tip'], [(496, 295)])
 
     def test_face_encodings(self):

@@ -17,18 +17,12 @@ import platform
 
 # Get next worker's id
 def next_id(current_id, worker_num):
-    if current_id == worker_num:
-        return 1
-    else:
-        return current_id + 1
+    return 1 if current_id == worker_num else current_id + 1
 
 
 # Get previous worker's id
 def prev_id(current_id, worker_num):
-    if current_id == 1:
-        return worker_num
-    else:
-        return current_id - 1
+    return worker_num if current_id == 1 else current_id - 1
 
 
 # A subprocess use to capture frames.
@@ -61,11 +55,10 @@ def process(worker_id, read_frame_list, write_frame_list, Global, worker_num):
     while not Global.is_exit:
 
         # Wait to read
-        while Global.read_num != worker_id or Global.read_num != prev_id(Global.buff_num, worker_num):
-            # If the user has requested to end the app, then stop waiting for webcam frames
-            if Global.is_exit:
-                break
-
+        while (
+            Global.read_num != worker_id
+            or Global.read_num != prev_id(Global.buff_num, worker_num)
+        ) and not Global.is_exit:
             time.sleep(0.01)
 
         # Delay to make the video look smoother
@@ -132,16 +125,20 @@ if __name__ == '__main__':
     write_frame_list = Manager().dict()
 
     # Number of workers (subprocess use to process frames)
-    if cpu_count() > 2:
-        worker_num = cpu_count() - 1  # 1 for capturing frames
-    else:
-        worker_num = 2
-
+    worker_num = cpu_count() - 1 if cpu_count() > 2 else 2
     # Subprocess list
-    p = []
+    p = [
+        threading.Thread(
+            target=capture,
+            args=(
+                read_frame_list,
+                Global,
+                worker_num,
+            ),
+        )
+    ]
 
-    # Create a thread to capture frames (if uses subprocess, it will crash on Mac)
-    p.append(threading.Thread(target=capture, args=(read_frame_list, Global, worker_num,)))
+
     p[0].start()
 
     # Load a sample picture and learn how to recognize it.
@@ -173,7 +170,7 @@ if __name__ == '__main__':
     tmp_time = time.time()
     while not Global.is_exit:
         while Global.write_num != last_num:
-            last_num = int(Global.write_num)
+            last_num = Global.write_num
 
             # Calculate fps
             delay = time.time() - tmp_time

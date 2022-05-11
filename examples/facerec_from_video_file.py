@@ -78,7 +78,7 @@ while True:
         cv2.putText(frame, name, (left + 6, bottom - 6), font, 0.5, (255, 255, 255), 1)
 
     # Write the resulting image to the output video file
-    print("Writing frame {} / {}".format(frame_number, length))
+    print(f"Writing frame {frame_number} / {length}")
     output_movie.write(frame)
 
 # All done!

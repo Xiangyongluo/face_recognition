@@ -68,7 +68,7 @@ print()
 
 for image in TEST_IMAGES:
     size = image.split("-")[1].split(".")[0]
-    print("Timings at {}:".format(size))
+    print(f"Timings at {size}:")
 
     print(" - Face locations: {:.4f}s ({:.2f} fps)".format(*run_test(setup_locate_faces.format(image), test_locate_faces)))
     print(" - Face landmarks: {:.4f}s ({:.2f} fps)".format(*run_test(setup_face_landmarks.format(image), test_face_landmarks)))

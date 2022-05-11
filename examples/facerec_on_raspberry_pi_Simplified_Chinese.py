@@ -31,7 +31,7 @@ while True:
 
     # 获得所有人脸的位置以及它们的编码
     face_locations = face_recognition.face_locations(output)
-    print("Found {} faces in image.".format(len(face_locations)))
+    print(f"Found {len(face_locations)} faces in image.")
     face_encodings = face_recognition.face_encodings(output, face_locations)
 
     # 将每一个人脸与已知样本图片比对
@@ -43,4 +43,4 @@ while True:
         if match[0]:
             name = "Barack Obama"
 
-        print("I see someone named {}!".format(name))
+        print(f"I see someone named {name}!")
