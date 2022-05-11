@@ -24,6 +24,8 @@ known_faces = [
 # results is an array of True/False telling if the unknown face matched anyone in the known_faces array
 results = face_recognition.compare_faces(known_faces, unknown_face_encoding)
 
-print("Is the unknown face a picture of Biden? {}".format(results[0]))
-print("Is the unknown face a picture of Obama? {}".format(results[1]))
-print("Is the unknown face a new person that we've never seen before? {}".format(not True in results))
+print(f"Is the unknown face a picture of Biden? {results[0]}")
+print(f"Is the unknown face a picture of Obama? {results[1]}")
+print(
+    f"Is the unknown face a new person that we've never seen before? {True not in results}"
+)

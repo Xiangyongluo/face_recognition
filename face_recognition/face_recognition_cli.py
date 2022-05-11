@@ -21,10 +21,13 @@ def scan_known_people(known_people_folder):
         encodings = face_recognition.face_encodings(img)
 
         if len(encodings) > 1:
-            click.echo("WARNING: More than one face found in {}. Only considering the first face.".format(file))
+            click.echo(
+                f"WARNING: More than one face found in {file}. Only considering the first face."
+            )
+
 
         if len(encodings) == 0:
-            click.echo("WARNING: No faces found in {}. Ignoring file.".format(file))
+            click.echo(f"WARNING: No faces found in {file}. Ignoring file.")
         else:
             known_names.append(basename)
             known_face_encodings.append(encodings[0])
@@ -34,9 +37,9 @@ def scan_known_people(known_people_folder):
 
 def print_result(filename, name, distance, show_distance=False):
     if show_distance:
-        print("{},{},{}".format(filename, name, distance))
+        print(f"{filename},{name},{distance}")
     else:
-        print("{},{}".format(filename, name))
+        print(f"{filename},{name}")
 
 
 def test_image(image_to_check, known_names, known_face_encodings, tolerance=0.6, show_distance=False):
@@ -69,11 +72,7 @@ def image_files_in_folder(folder):
 
 
 def process_images_in_process_pool(images_to_check, known_names, known_face_encodings, number_of_cpus, tolerance, show_distance):
-    if number_of_cpus == -1:
-        processes = None
-    else:
-        processes = number_of_cpus
-
+    processes = None if number_of_cpus == -1 else number_of_cpus
     # macOS will crash due to a bug in libdispatch if you don't use 'forkserver'
     context = multiprocessing
     if "forkserver" in multiprocessing.get_all_start_methods():
